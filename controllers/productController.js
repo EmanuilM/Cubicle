@@ -5,6 +5,7 @@ const router = Router();
 const fs = require('fs');
 const db = require('../config/db.json');
 const path = require('path');
+const saveToDb = require('../controllers/saveDataToDb');
 
 //Setup create page view
 
@@ -15,15 +16,7 @@ router.get('/create' , (req,res) => {
 // Setup create router
 
 router.post('/create' , (req,res) => { 
-    const cube = new cubeMaker(Object.assign(req.body , {id : uniqueId()}));
-    console.log(cube);
-    db.push(cube);
-    fs.writeFile(path.join(__dirname , '../config/db.json') , JSON.stringify(db) , (err) => { 
-        if(err) { 
-           return console.log(err);
-        }
-    })
-    res.status(201).redirect('/');
+    saveToDb(req,res,new cubeMaker(Object.assign(req.body , {id : uniqueId()})));
 });
 
 module.exports = router;
