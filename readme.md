@@ -1,1 +1,1 @@
-Simple NodeJS and ExpressJS applicationa
+Simple NodeJS and ExpressJS application
