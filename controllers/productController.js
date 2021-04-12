@@ -16,6 +16,9 @@ router.get('/create' , (req,res) => {
 // Setup create router
 
 router.post('/create' , (req,res) => { 
+    if(Object.values(req.body).some(x => x === '')) { 
+        return console.log('All fields are required!');
+    }
     saveToDb(req,res,new cubeMaker(Object.assign(req.body , {id : uniqueId()})));
 });
 
@@ -25,7 +28,6 @@ router.get('/details/:id' , (req,res) => {
     const id = req.params.id;
     const cube = db.find(x=> x.id === id);
      
-    console.log(cube);
     res.render('details' , {cube});
 });
 
