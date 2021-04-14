@@ -9,6 +9,7 @@ router.use('/about',about);
 router.get('/create',productController);
 router.post('/create',productController);
 router.get('/details/:id',productController);
+router.get('/create/accessory',productController);
 
 router.get('*' , (req,res) => { 
     res.render('404');

@@ -31,6 +31,9 @@ router.get('/details/:id' , (req,res) => {
     res.render('updatedDetailsPage' , {cube});
 });
 
+router.get('/create/accessory' , (req,res) => { 
+    res.render('createAccessory');
+});
   
 
 module.exports = router;
