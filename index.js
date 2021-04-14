@@ -5,6 +5,7 @@ const config = require('./config/config');
 const app = express();
 
 require('./config/express')(app);
+require('./Database/mongooseSetup');
 
 app.use(router);
 
