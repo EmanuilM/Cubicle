@@ -28,7 +28,7 @@ router.get('/details/:id' , (req,res) => {
     const id = req.params.id;
     const cube = db.find(x=> x.id === id);
      
-    res.render('details' , {cube});
+    res.render('updatedDetailsPage' , {cube});
 });
 
   
