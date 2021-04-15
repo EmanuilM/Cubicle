@@ -7,7 +7,7 @@
     <input type="number" name="to" class="difficulty" placeholder="Difficulty to...">
     <input type="submit" value="search">
   </form>
-
+    {{#if products}}
     {{#each products}}
     <div class="cube">
     <img class="cube" src="{{this.imageUrl}}">
@@ -16,5 +16,8 @@
     <a class="btn" href="/details/{{this.id}}">Details</a>
   </div>
     {{/each}}
+    {{else}}
+    <h1>No cubes were found</h1>
+    {{/if}}
 
 </main>

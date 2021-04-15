@@ -1,7 +1,10 @@
-class Cube { 
-    constructor({id,name,description,imageUrl,level}) { 
-        Object.assign(this , {id,name,description,imageUrl,level});
-    }
-}
+const mongoose = require('mongoose');
 
-module.exports = Cube;
+const cubeSchema = new mongoose.Schema({
+    name: String,
+    description: String,
+    imageUrl : String,
+    level : Number,
+})
+
+module.exports = mongoose.model('Cube',cubeSchema);
