@@ -1,7 +1,8 @@
-const data = require('../config/db.json');
+const data = require('../models/cube');
 
 async function getAll (query)  {
-    let products = data;
+    let products = await data.find({});
+   console.log(products);
     if (query.search) {
         products = products.filter(x => x.name.toLowerCase().includes(query.search));
     }
