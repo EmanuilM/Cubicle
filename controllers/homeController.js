@@ -16,6 +16,7 @@ router.get('/', async (req, res) => {
             res.status(500).end();
 
         })
+
 });
 
 //Setup search router
