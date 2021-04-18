@@ -2,6 +2,7 @@ const {Router} = require('express');
 const accessoryModel = require('../models/accessory');
 const cubeModel = require('../models/cube');
 const router = Router();
+const productService = require('../services/productService');
 
 
 router.get('/create/accessory' , (req,res) => { 
@@ -9,8 +10,21 @@ router.get('/create/accessory' , (req,res) => {
 });
 
 router.get('/attach/accessory/:id' ,async (req,res) => { 
-    // let test = await cubeModel.findById(req.params.id).populate('accessories').lean();
-    console.log(req);
+    try{
+        const cube = await cubeModel.findOne({_id : req.params.id});
+        const accessories = await accessoryModel.find({});
+        res.render('attachAccessory' , {cube , accessories});
+    }catch{
+        res.status(404).render('404');
+    }
+  
+});
+
+router.post('/attach/accessory/:id' ,async (req,res) => { 
+  productService.attachAccessory(req.params.id , req.body.accessories)
+  .then(()=> res.redirect(`/details/${req.params.id}`));
+
+    
 });
 
 

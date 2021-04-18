@@ -1,15 +1,6 @@
 const {Router} = require('express');
-const cubeMaker = require('../models/cube');
-const uniqueId = require('uniqid');
 const router = Router();
-const fs = require('fs');
-const db = require('../config/db.json');
-const path = require('path');
-const saveToDb = require('../controllers/saveDataToDb');
 const cubeModel = require('../models/cube');
-
-
-
 
 //Setup create page view
 
@@ -42,7 +33,7 @@ router.get('/details/:id' , async (req,res) => {
      
     // res.render('updatedDetailsPage' , {cube});
     try{
-        const cube = await cubeMaker.findOne({_id : req.params.id});
+        const cube = await cubeModel.findOne({_id : req.params.id});
         res.render('updatedDetailsPage' , {cube});
 
     }catch { 
@@ -53,9 +44,7 @@ router.get('/details/:id' , async (req,res) => {
 
 });
 
-router.get('/create/accessory' , (req,res) => { 
-    res.render('createAccessory');
-});
+
   
 
 module.exports = router;
