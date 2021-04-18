@@ -5,6 +5,8 @@ const Cube = require('../models/cube');
 async function attachAccessory(productId, accessoryId) {
     let product = await Cube.findById(productId)
     let accessry = await Accessory.findById(accessoryId);
+//    console.log(accessry,accessoryId)
+console.log(accessry)
 
     product.accessories.push(accessry);
     return product.save();

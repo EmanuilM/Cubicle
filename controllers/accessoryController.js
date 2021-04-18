@@ -21,7 +21,7 @@ router.get('/attach/accessory/:id' ,async (req,res) => {
 });
 
 router.post('/attach/accessory/:id' ,async (req,res) => { 
-  productService.attachAccessory(req.params.id , req.body.accessories)
+  productService.attachAccessory(req.params.id , req.body.accessory)
   .then(()=> res.redirect(`/details/${req.params.id}`));
 
     
