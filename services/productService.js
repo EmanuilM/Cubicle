@@ -10,6 +10,10 @@ async function attachAccessory(productId, accessoryId) {
     return product.save();
 }
 
+async function getAllUnatachedProducts(ids) { 
+    return Accessory.find({ _id : {$nin: ids}});
+}
+
 async function getAll (query)  {
     let products = await data.find({});
     if (query.search) {
@@ -34,5 +38,6 @@ module.exports = {
     attachAccessory,
     getAll,
     getAccessories,
+    getAllUnatachedProducts,
 
 }

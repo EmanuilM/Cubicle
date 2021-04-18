@@ -12,7 +12,8 @@ router.get('/create/accessory' , (req,res) => {
 router.get('/attach/accessory/:id' ,async (req,res) => { 
     try{
         const cube = await cubeModel.findOne({_id : req.params.id});
-        const accessories = await accessoryModel.find({});
+        console.log(cube);
+        const accessories = await productService.getAllUnatachedProducts(cube.accessories);
         res.render('attachAccessory' , {cube , accessories});
     }catch{
         res.status(404).render('404');
