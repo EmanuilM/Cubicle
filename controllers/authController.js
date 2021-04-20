@@ -1,5 +1,4 @@
 const { Router } = require('express');
-const cookie = require('cookie-parser');
 const router = Router();
 
 const authService = require('../services/authService');
@@ -21,7 +20,7 @@ router.get('/register' ,async (req,res) => {
 
 router.post('/register' ,async (req,res) => { 
         authService.register(req.body);
-        res.redirect('/login');
+        res.redirect('/auth/login');
     
 });
 

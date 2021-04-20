@@ -34,11 +34,7 @@ async function login(userData) {
 
    const token = jwt.sign({_id : isUserExists._id , roles:['user']} , cfg.development.SECRET);
 
-   console.log(token);
    return token;
-
-   
-    
 }
 
 

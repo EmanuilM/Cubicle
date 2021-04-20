@@ -5,11 +5,11 @@ const router = Router();
 const productService = require('../services/productService');
 
 
-router.get('/create/accessory' , (req,res) => { 
+router.get('/create' , (req,res) => { 
     res.render('createAccessory');
 });
 
-router.get('/attach/accessory/:id' ,async (req,res) => { 
+router.get('/attach/:id' ,async (req,res) => { 
     try{
         const cube = await cubeModel.findOne({_id : req.params.id});
         console.log(cube);
@@ -21,18 +21,23 @@ router.get('/attach/accessory/:id' ,async (req,res) => {
   
 });
 
-router.post('/attach/accessory/:id' ,async (req,res) => { 
+router.post('/attach/:id' ,async (req,res) => { 
   productService.attachAccessory(req.params.id , req.body.accessory)
-  .then(()=> res.redirect(`/details/${req.params.id}`));
+  .then(()=> res.redirect(`/cubes/details/${req.params.id}`));
 
     
 });
 
 
-router.post('/create/accessory' , (req,res) => { 
-    const createAccessory = new accessoryModel(req.body);
-    createAccessory.save();
-    res.redirect('/');
+router.post('/create' , async (req,res) => { 
+    try { 
+        const createAccessory = new accessoryModel(req.body);
+        createAccessory.save();
+        res.redirect('/');
+    } catch { 
+        res.render('404')
+    }
+   
 });
 
 module.exports = router;

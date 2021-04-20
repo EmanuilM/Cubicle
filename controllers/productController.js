@@ -9,17 +9,18 @@ router.get('/create' , (req,res) => {
 });
 
 
-router.post('/create' , (req,res) => { 
+router.post('/create' , async (req,res) => { 
     if(Object.values(req.body).some(x => x === '')) { 
         return console.log('All fields are required!');
     }
+    try { 
 
-    let createdCube = new cubeModel(req.body);
-    createdCube.save();
-    res.redirect('/');
-
-
-
+        let createdCube = new cubeModel(req.body);
+        createdCube.save();
+        res.redirect('/');
+    }catch { 
+        console.log('error');
+    }
 
 });
 

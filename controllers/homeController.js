@@ -4,9 +4,6 @@ const cubes = require('../models/cube');
 const productService = require('../services/productService');
 
 
-
-
-//Setup home page router
 router.get('/', async (req, res) => {
         productService.getAll(req.query)
         .then(products => {
@@ -19,10 +16,9 @@ router.get('/', async (req, res) => {
 
 });
 
-//Setup search router
+router.get('/about' , (req,res) => { 
+    res.render('about');
+});
 
 
-
-
-//export module
 module.exports = router;
