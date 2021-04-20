@@ -34,10 +34,15 @@ async function getAccessories(id) {
     return  Cube.findById(id).populate('accessories');
 }
 
+async function updateCube (oldData , newData) {
+    const updatedData = await Cube.updateOne(oldData , newData);
+}
+
 module.exports = { 
     attachAccessory,
     getAll,
     getAccessories,
     getAllUnatachedProducts,
+    updateCube,
 
 }

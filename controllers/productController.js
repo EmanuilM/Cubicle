@@ -8,7 +8,6 @@ router.get('/create' , (req,res) => {
     res.render('create');
 });
 
-
 router.post('/create' , async (req,res) => { 
     if(Object.values(req.body).some(x => x === '')) { 
         return console.log('All fields are required!');
@@ -28,7 +27,6 @@ router.post('/create' , async (req,res) => {
 router.get('/details/:id' , async (req,res) => { 
     try{
         const cube = await productService.getAccessories(req.params.id);
-        console.log(cube);
         res.render('updatedDetailsPage' , {cube});
 
     }catch{
@@ -36,6 +34,16 @@ router.get('/details/:id' , async (req,res) => {
     }
 
 });
+
+router.get('/edit/:id' , async (req,res) => { 
+        res.render('editCubePage');
+});
+
+router.post('/edit/:id' , async (req,res) => { 
+    const oldData = await cubeModel.findOne({_id:req.params.id});
+    productService.updateCube(oldData , req.body);
+    res.redirect('/');
+}); 
 
 
 
