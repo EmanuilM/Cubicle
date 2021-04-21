@@ -2,13 +2,15 @@ const {Router} = require('express');
 const router = Router();
 const cubeModel = require('../models/cube');
 const productService = require('../services/productService');
+const isGuest = require('../middlewares/guest');
+const isAuth = require('../middlewares/isAuth');
 
 
-router.get('/create' , (req,res) => { 
+router.get('/create' ,  isAuth , (req,res) => { 
     res.render('create');
 });
 
-router.post('/create' , async (req,res) => { 
+router.post('/create' , isAuth ,  async (req,res) => { 
     if(Object.values(req.body).some(x => x === '')) { 
         return console.log('All fields are required!');
     }
@@ -34,26 +36,26 @@ router.get('/details/:id' , async (req,res) => {
 
 });
 
-router.get('/edit/:id' , async (req,res) => { 
+router.get('/edit/:id' , isAuth ,  async (req,res) => { 
     const cube = await cubeModel.findOne({_id:req.params.id});
 
         res.render('editCubePage' , {cube});
 });
 
-router.post('/edit/:id' , async (req,res) => { 
+router.post('/edit/:id' , isAuth ,  async (req,res) => { 
     const oldData = await cubeModel.findOne({_id:req.params.id});
     productService.updateCube(oldData , req.body);
 
     res.redirect('/');
 }); 
 
-router.get('/delete/:id' , async (req,res) => { 
+router.get('/delete/:id' , isAuth ,  async (req,res) => { 
     const cube = await cubeModel.findOne({_id:req.params.id});
 
     res.render('deleteCubePage' , {cube});
 });
 
-router.post('/delete/:id' , async (req,res) => { 
+router.post('/delete/:id' , isAuth ,  async (req,res) => { 
     const cube = await cubeModel.findOne({_id:req.params.id});
     productService.deleteCube(cube);
     res.redirect('/');

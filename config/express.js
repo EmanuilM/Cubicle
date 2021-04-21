@@ -1,8 +1,7 @@
 const express = require('express');
 const handlebars = require('express-handlebars');
-const bodyParser = require('body-parser');
-const coockieParser = require('cookie-parser');
 const cookieParser = require('cookie-parser');
+const auth = require('../middlewares/auth');
 const app = express();
 
 module.exports = (app) => {
@@ -19,6 +18,7 @@ module.exports = (app) => {
     //TODO: Setup the static files
     app.use(express.static('public'));
     app.use(cookieParser());
+    app.use(auth);
 
 
 };

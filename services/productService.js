@@ -53,5 +53,4 @@ module.exports = {
     getAllUnatachedProducts,
     updateCube,
     deleteCube,
-
 }
