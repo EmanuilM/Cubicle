@@ -13,7 +13,6 @@ router.post('/create' , async (req,res) => {
         return console.log('All fields are required!');
     }
     try { 
-
         let createdCube = new cubeModel(req.body);
         createdCube.save();
         res.redirect('/');
@@ -36,14 +35,30 @@ router.get('/details/:id' , async (req,res) => {
 });
 
 router.get('/edit/:id' , async (req,res) => { 
-        res.render('editCubePage');
+    const cube = await cubeModel.findOne({_id:req.params.id});
+
+        res.render('editCubePage' , {cube});
 });
 
 router.post('/edit/:id' , async (req,res) => { 
     const oldData = await cubeModel.findOne({_id:req.params.id});
     productService.updateCube(oldData , req.body);
+
     res.redirect('/');
 }); 
+
+router.get('/delete/:id' , async (req,res) => { 
+    const cube = await cubeModel.findOne({_id:req.params.id});
+
+    res.render('deleteCubePage' , {cube});
+});
+
+router.post('/delete/:id' , async (req,res) => { 
+    const cube = await cubeModel.findOne({_id:req.params.id});
+    productService.deleteCube(cube);
+    res.redirect('/');
+
+});
 
 
 

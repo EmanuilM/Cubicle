@@ -35,7 +35,15 @@ async function getAccessories(id) {
 }
 
 async function updateCube (oldData , newData) {
+    if(newData.name === '' || newData.description === '' || newData.imageUrl === '') { 
+        throw Error('All fields are required!');
+    }
     const updatedData = await Cube.updateOne(oldData , newData);
+    return updatedData;
+}
+
+async function deleteCube (data) { 
+   return await Cube.deleteOne({_id:data._id});
 }
 
 module.exports = { 
@@ -44,5 +52,6 @@ module.exports = {
     getAccessories,
     getAllUnatachedProducts,
     updateCube,
+    deleteCube,
 
 }

@@ -9,20 +9,20 @@ async function register(userData) {
         throw Error('Passwords do not match!');
     }
 
-    const isUserExists = await userModel.findOne({ username: userData.username });
+    const isUserExists = await userModel.findOne({ username: userData.username.toLowerCase() });
     if (isUserExists) {
         throw Error('This user already exists!');
     }
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(userData.password, salt);
-    const user = new userModel({ username: userData.username, password: hash });
+    const user = new userModel({ username: userData.username.toLowerCase(), password: hash });
     return user.save();
 
 }
 
 
 async function login(userData) {
-    const isUserExists = await userModel.findOne({ username: userData.username });
+    const isUserExists = await userModel.findOne({ username: userData.username.toLowerCase() });
     if (!isUserExists) {
         throw Error('This user does not exists!');
     }
