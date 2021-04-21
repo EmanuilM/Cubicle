@@ -5,6 +5,7 @@ const userModel = require('../models/user');
 const productService = require('../services/productService');
 const isGuest = require('../middlewares/guest');
 const isAuth = require('../middlewares/isAuth');
+const test = require('../middlewares/test');
 
 
 router.get('/create', isAuth, (req, res) => {
@@ -28,8 +29,9 @@ router.post('/create', isAuth, async (req, res) => {
 router.get('/details/:id', async (req, res) => {
     try {
         const cube = await productService.getAccessories(req.params.id);
-        const creator = await userModel.findOne({ _id: cube.creator });
-        res.render('updatedDetailsPage', { cube, creator });
+        const creatorId = cube.creator;
+        const isAuthor = creatorId.toString() === req.user._id
+        res.render('updatedDetailsPage', { cube , isAuthor});
 
     } catch {
         res.status(500).end();
@@ -37,7 +39,7 @@ router.get('/details/:id', async (req, res) => {
 
 });
 
-router.get('/edit/:id', isAuth, async (req, res) => {
+router.get('/edit/:id', isAuth, test , async (req, res) => {
     const cube = await cubeModel.findOne({ _id: req.params.id });
 
     res.render('editCubePage', { cube });
