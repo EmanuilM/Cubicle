@@ -10,6 +10,11 @@ async function attachAccessory(productId, accessoryId) {
     return product.save();
 }
 
+async function createCube(data,userId) { 
+    let cube = await Cube({...data, creator:userId});
+   return cube.save();
+}
+
 async function getAllUnatachedProducts(ids) { 
     return Accessory.find({ _id : {$nin: ids}});
 }
@@ -53,4 +58,5 @@ module.exports = {
     getAllUnatachedProducts,
     updateCube,
     deleteCube,
+    createCube,
 }
