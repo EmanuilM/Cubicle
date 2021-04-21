@@ -30,11 +30,10 @@ router.get('/details/:id', async (req, res) => {
     try {
         const cube = await productService.getAccessories(req.params.id);
         const creatorId = cube.creator;
-        const isAuthor = creatorId.toString() === req.user._id
+        const isAuthor = creatorId == req.user._id
         res.render('updatedDetailsPage', { cube , isAuthor});
-
     } catch {
-        res.status(500).end();
+        res.redirect('/auth/login');
     }
 
 });
