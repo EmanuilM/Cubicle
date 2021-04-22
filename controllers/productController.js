@@ -30,8 +30,8 @@ router.get('/details/:id', async (req, res) => {
         const cube = await productService.getAccessories(req.params.id);
         const creatorId = cube.creator;
         const isAuthor = creatorId == req.user._id
-        res.render('updatedDetailsPage', { cube, isAuthor });
 
+        res.render('updatedDetailsPage', { cube, isAuthor });
     } catch {
         res.redirect('/auth/login');
     }
@@ -63,7 +63,6 @@ router.post('/delete/:id', isAuth, async (req, res) => {
     res.redirect('/');
 
 });
-
 
 
 module.exports = router;
