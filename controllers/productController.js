@@ -5,6 +5,7 @@ const userModel = require('../models/user');
 const productService = require('../services/productService');
 const isGuest = require('../middlewares/guest');
 const isAuth = require('../middlewares/isAuth');
+const isOwner = require('../services/productService')
 
 
 router.get('/create', isAuth, (req, res) => {
@@ -41,6 +42,10 @@ router.get('/details/:id', async (req, res) => {
 router.get('/edit/:id', isAuth, async (req, res) => {
     const cube = await cubeModel.findOne({ _id: req.params.id });
 
+    const isCreator = await productService.isOwner(cube.creator , req.user._id);
+    if(isCreator) { 
+        return res.redirect('/');
+    }
     res.render('editCubePage', { cube });
 });
 

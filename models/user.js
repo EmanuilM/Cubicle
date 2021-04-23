@@ -5,16 +5,16 @@ const userSchema = new mongoose.Schema({
     username: { 
         required:true,
         type:String,
-        minlength:5,
+        minlength: 5,
         maxlength:20,
         validate: { 
             validator: (v) => { 
                 return /^[a-zA-Z0-9]+$/.test(v);
             },
             message : (props) => { 
-               return `Username must be at least 5 characters long`;
+               return `Password should consists only English letters and digits`;
             }
-        }
+        },
     },
     password : {
         required:true,
@@ -29,7 +29,6 @@ const userSchema = new mongoose.Schema({
             }
         },
     },
-
     
 });
 

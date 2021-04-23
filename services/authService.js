@@ -5,27 +5,27 @@ const userModel = require('../models/user');
 
 
 async function register(userData) {
-    if (userData.password !== userData.repeatPassword) {
-        throw ({message : "Passwords do not match!"});
-    }
-    if(userData.password === '') { 
-        throw ({message : "Passwords is required!"});
-    }
-
-    const isUserExists = await userModel.findOne({ username: userData.username.toLowerCase() });
-    if (isUserExists) {
-        throw ({message : "This user already exists!"});
-    }
+        if (userData.password !== userData.repeatPassword) {
+            throw ({message : "Passwords do not match!"});
+        }
+        if(userData.password === '') { 
+            throw ({message : "Passwords is required!"});
+        }
+    
+        const isUserExists = await userModel.findOne({ username: userData.username.toLowerCase() });
+        if (isUserExists) {
+            throw ({message : "This user already exists!"});
+        }
+        const user = new userModel({ username: userData.username.toLowerCase(), password : userData.password });
+    
+        return user.save();
+   
+    
 
     // const salt = await bcrypt.genSalt(10);
     // const hash = await bcrypt.hash(userData.password, salt);
     // const user = new userModel({ username: userData.username.toLowerCase(), password : hash });
     
-    console.log(userData);
-
-    const user = new userModel({ username: userData.username.toLowerCase(), password : userData.password });
-
-    return user.save();
 
 }
 

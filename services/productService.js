@@ -51,6 +51,15 @@ async function deleteCube (data) {
    return await Cube.deleteOne({_id:data._id});
 }
 
+async function isOwner(ownerID , userId) { 
+    const isAuthor = ownerID == userId;
+    if(isAuthor) { 
+      return false;
+    }else { 
+        return true;
+    }
+}
+
 module.exports = { 
     attachAccessory,
     getAll,
@@ -59,4 +68,5 @@ module.exports = {
     updateCube,
     deleteCube,
     createCube,
+    isOwner,
 }

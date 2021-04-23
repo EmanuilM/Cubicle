@@ -15,8 +15,13 @@ router.get('/create' , isAuth ,  (req,res) => {
 router.get('/attach/:id' , isAuth , async (req,res) => { 
     try{
         const cube = await cubeModel.findOne({_id : req.params.id});
-        console.log(cube);
         const accessories = await productService.getAllUnatachedProducts(cube.accessories);
+
+        const isCreator = await productService.isOwner(cube.creator , req.user._id);
+        if(isCreator) { 
+            return res.redirect('/');
+        }
+
         res.render('attachAccessory' , {cube , accessories});
     }catch{
         res.status(404).render('404');
