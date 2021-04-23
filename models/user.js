@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
     username: { 
@@ -10,18 +11,40 @@ const userSchema = new mongoose.Schema({
             validator: (v) => { 
                 return /^[a-zA-Z0-9]+$/.test(v);
             },
+            message : (props) => { 
+               return `Username must be at least 5 characters long`;
+            }
         }
     },
     password : {
         required:true,
         type:String,
-        validate: { 
-            validator: (v) => { 
+        minlength : 8,
+        validate : { 
+            validator : (v) =>  {
                 return /^[a-zA-Z0-9]+$/.test(v);
             },
+            message : (props) => { 
+              return  `Password should consists only English letters and digits`
+            }
         },
-        minlength : 8,
-    }
+    },
+
+    
 });
+
+userSchema.pre('save' , function(next) { 
+    bcrypt.genSalt(10)
+    .then(salt => {
+        return bcrypt.hash(this.password , salt);
+    })
+    .then(hash => { 
+        this.password = hash;
+        next();
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+})
 
 module.exports = mongoose.model('user' , userSchema);

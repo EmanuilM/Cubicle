@@ -6,16 +6,25 @@ const userModel = require('../models/user');
 
 async function register(userData) {
     if (userData.password !== userData.repeatPassword) {
-        throw Error('Passwords do not match!');
+        throw ({message : "Passwords do not match!"});
+    }
+    if(userData.password === '') { 
+        throw ({message : "Passwords is required!"});
     }
 
     const isUserExists = await userModel.findOne({ username: userData.username.toLowerCase() });
     if (isUserExists) {
-        throw Error('This user already exists!');
+        throw ({message : "This user already exists!"});
     }
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(userData.password, salt);
-    const user = new userModel({ username: userData.username.toLowerCase(), password: hash });
+
+    // const salt = await bcrypt.genSalt(10);
+    // const hash = await bcrypt.hash(userData.password, salt);
+    // const user = new userModel({ username: userData.username.toLowerCase(), password : hash });
+    
+    console.log(userData);
+
+    const user = new userModel({ username: userData.username.toLowerCase(), password : userData.password });
+
     return user.save();
 
 }
@@ -24,17 +33,17 @@ async function register(userData) {
 async function login(userData) {
     const isUserExists = await userModel.findOne({ username: userData.username.toLowerCase() });
     if (!isUserExists) {
-        throw Error('This user does not exists!');
+        throw ({message :'This user does not exists!'});
     }
-    
-   const isPasswordMatch =  await bcrypt.compare(userData.password , isUserExists.password);
-   if(!isPasswordMatch) { 
-       throw Error('Invalid Password!');
-   }
 
-   const token = jwt.sign({_id : isUserExists._id , roles:['user']} , cfg.development.SECRET);
+    const isPasswordMatch = await bcrypt.compare(userData.password, isUserExists.password);
+    if (!isPasswordMatch) {
+        throw Error('Invalid Password!');
+    }
 
-   return token;
+    const token = jwt.sign({ _id: isUserExists._id, roles: ['user'] }, cfg.development.SECRET);
+
+    return token;
 }
 
 
